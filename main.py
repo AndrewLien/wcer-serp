@@ -26,12 +26,14 @@ def get_meta_description_from_google(url):
     driver.get(search_url)
 
     try:
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, 30)
         wait.until(EC.visibility_of_element_located(
             (By.XPATH, '//div[contains(@style, "-webkit-line-clamp:2")]')
         ))
+        if "aren't any great matches for your search" in driver.page_source:
+            return "aren't any great matches for your search"
     except:
-        if 'Your search did not match any documents' in driver.page_source:
+        if 'did not match any documents' in driver.page_source:
             return 'Your search did not match any documents'
 
     # Get page source after rendering
